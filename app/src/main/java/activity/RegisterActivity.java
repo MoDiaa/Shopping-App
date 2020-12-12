@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.example.shoppingapplication.R;
+
 import app.AppConfig;
 import app.AppController;
 import helper.SQLiteHandler;
@@ -48,8 +49,8 @@ public class RegisterActivity extends Activity {
         inputFullName = (EditText) findViewById(R.id.name);
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
-        inputAddress=(EditText) findViewById(R.id.Address);
-        inputPhoneNum=(EditText) findViewById(R.id.PhoneNum);
+        inputAddress = (EditText) findViewById(R.id.Address);
+        inputPhoneNum = (EditText) findViewById(R.id.PhoneNum);
         btnRegister = (Button) findViewById(R.id.btnRegister);
         btnLinkToLogin = (Button) findViewById(R.id.btnLinkToLoginScreen);
 
@@ -81,7 +82,7 @@ public class RegisterActivity extends Activity {
                 String Address = inputAddress.getText().toString().trim();
                 String PhoneNum = inputPhoneNum.getText().toString().trim();
 
-                if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty() && !Address.isEmpty()&& !PhoneNum.isEmpty()) {
+                if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty() && !Address.isEmpty() && !PhoneNum.isEmpty()) {
                     registerUser(name, email, password, Address, PhoneNum);
                 } else {
                     Toast.makeText(getApplicationContext(),
@@ -107,7 +108,7 @@ public class RegisterActivity extends Activity {
     /**
      * Function to store user in MySQL database will post params(tag, name,
      * email, password) to register url
-     * */
+     */
     private void registerUser(final String name, final String email,
                               final String password, final String Address, final String PhoneNum) {
         // Tag used to cancel the request
@@ -141,7 +142,7 @@ public class RegisterActivity extends Activity {
                                 .getString("created_at");
 
                         // Inserting row in users table
-                        db.addUser(name, email, uid, created_at,Address,PhoneNum);
+                        db.addUser(name, email, uid, created_at, Address, PhoneNum);
 
                         Toast.makeText(getApplicationContext(), "User successfully registered. Try login now!", Toast.LENGTH_LONG).show();
 

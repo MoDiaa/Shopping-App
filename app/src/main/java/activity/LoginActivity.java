@@ -1,7 +1,6 @@
 package activity;
 
 
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -24,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.example.shoppingapplication.R;
+
 import app.AppConfig;
 import app.AppController;
 import helper.SQLiteHandler;
@@ -103,7 +103,7 @@ public class LoginActivity extends Activity {
 
     /**
      * function to verify login details in mysql db
-     * */
+     */
     private void checkLogin(final String email, final String password) {
         // Tag used to cancel the request
         String tag_string_req = "req_login";
@@ -141,7 +141,7 @@ public class LoginActivity extends Activity {
                                 .getString("created_at");
 
                         // Inserting row in users table
-                        db.addUser(name, email, uid, created_at,Address,PhoneNum);
+                        db.addUser(name, email, uid, created_at, Address, PhoneNum);
 
                         // Launch main activity
                         Intent intent = new Intent(LoginActivity.this,

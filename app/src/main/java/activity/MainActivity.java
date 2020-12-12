@@ -2,6 +2,7 @@ package activity;
 
 import helper.SQLiteHandler;
 import helper.SessionManager;
+
 import com.example.shoppingapplication.R;
 
 
@@ -20,6 +21,8 @@ public class MainActivity extends Activity {
     private TextView txtEmail;
     private Button btnLogout;
     private Button Currentloc;
+    private Button ProductsButton;
+
 
     private SQLiteHandler db;
     private SessionManager session;
@@ -33,6 +36,8 @@ public class MainActivity extends Activity {
         txtEmail = (TextView) findViewById(R.id.email);
         btnLogout = (Button) findViewById(R.id.btnLogout);
         Currentloc = (Button) findViewById(R.id.Currentloc);
+        ProductsButton = (Button) findViewById(R.id.Productsbut);
+
         // SqLite database handler
         db = new SQLiteHandler(getApplicationContext());
 
@@ -66,15 +71,24 @@ public class MainActivity extends Activity {
         Currentloc.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent activity2Intent = new Intent(getApplicationContext(), LocationActivity.class);
+                activity2Intent.putExtra("finish", false);
                 startActivity(activity2Intent);
             }
         });
+        ProductsButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent activity2Intent = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(activity2Intent);
+            }
+        });
+
+
     }
 
     /**
      * Logging out the user. Will set isLoggedIn flag to false in shared
      * preferences Clears the user data from sqlite users table
-     * */
+     */
     private void logoutUser() {
         session.setLogin(false);
 
