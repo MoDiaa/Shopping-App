@@ -4,23 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="100"
-    >
+    android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
 
     <ImageView
         android:id="@+id/ImgView"
         android:layout_width="502dp"
         android:layout_height="288dp"
         android:layout_weight="66.6"
-        android:gravity="center"
-        />
+        android:gravity="center" />
 
     <LinearLayout
         android:id="@+id/product_container"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="33.3"
-        >
+        android:layout_weight="33.3">
 
         <TextView
             android:id="@+id/textView2"
@@ -30,8 +28,7 @@
             android:text="TextView2"
             android:textSize="18sp"
             android:textStyle="normal|bold|italic"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
 
         <TextView
             android:id="@+id/textView3"

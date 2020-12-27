@@ -34,7 +34,6 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
     public static Location currentLocation;
     FusedLocationProviderClient fusedLocationProviderClient;
     private static final int REQUEST_CODE = 101;
-
     boolean finish = false;
 
     @Override
@@ -53,10 +52,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
             return;
         }
-
         Task<Location> task = fusedLocationProviderClient.getLastLocation();
-
-
         task.addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
@@ -81,7 +77,7 @@ public class LocationActivity extends FragmentActivity implements OnMapReadyCall
         LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("I am here!");
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 5));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
         googleMap.addMarker(markerOptions);
     }
 

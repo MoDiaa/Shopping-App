@@ -5,7 +5,6 @@ import helper.SessionManager;
 
 import com.example.shoppingapplication.R;
 
-
 import java.util.HashMap;
 
 import android.app.Activity;
@@ -21,9 +20,7 @@ public class MainActivity extends Activity {
     private TextView txtEmail;
     private Button btnLogout;
     private Button Currentloc;
-    private Button ProductsButton;
-
-
+    private Button ProductsButton, SaveButton;
     private SQLiteHandler db;
     private SessionManager session;
 
@@ -37,6 +34,7 @@ public class MainActivity extends Activity {
         btnLogout = (Button) findViewById(R.id.btnLogout);
         Currentloc = (Button) findViewById(R.id.Currentloc);
         ProductsButton = (Button) findViewById(R.id.Productsbut);
+        SaveButton = (Button) findViewById(R.id.Savebut);
 
         // SqLite database handler
         db = new SQLiteHandler(getApplicationContext());
@@ -82,6 +80,13 @@ public class MainActivity extends Activity {
             }
         });
 
+        SaveButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent activity2Intent = new Intent(getApplicationContext(), SavedShopsActivity.class);
+                startActivity(activity2Intent);
+            }
+        });
+
 
     }
 
@@ -91,12 +96,11 @@ public class MainActivity extends Activity {
      */
     private void logoutUser() {
         session.setLogin(false);
-
         db.deleteUsers();
-
         // Launching the login activity
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
+
 }

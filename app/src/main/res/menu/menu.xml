@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/filter"
+        android:title="Sort according to"
+        app:showAsAction="always">
+
+        <menu>
+            <item
+                android:id="@+id/sort1"
+                android:title="Price Low to High"
+                android:orderInCategory="100" />
+            <item
+                android:id="@+id/sort11"
+                android:title="Price High to Low"
+                android:orderInCategory="100" />
+            <item
+                android:id="@+id/sort2"
+                android:title="Distance Low to High"
+                android:orderInCategory="100" />
+            <item
+                android:id="@+id/sort22"
+                android:title="Distance High to Low"
+                android:orderInCategory="100" />
+        </menu>
+
+    </item>
+
+</menu>

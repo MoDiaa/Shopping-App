@@ -1,8 +1,15 @@
 package activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import androidx.preference.PreferenceManager;
+
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,7 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
 import app.AppConfig;
 
@@ -32,21 +39,20 @@ public class DetailedProductsActivity extends AppCompatActivity {
     public ArrayList<Shop> ShopList = new ArrayList<>();
     public ArrayList<offers> Shop_ProductList = new ArrayList<>();
     public ArrayList<Collector> CollectorList = new ArrayList<>();
-
     private TextView mname, mdescription;
     private ImageView mImage;
-
+    CollectorListAdapter adapter;
     Collector cn = new Collector();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_products);
         mname = findViewById(R.id.Productname);
         mdescription = findViewById(R.id.description);
         mImage = findViewById(R.id.imgView);
+
 
         // Catching incoming intent
         Intent intent = getIntent();
@@ -60,16 +66,19 @@ public class DetailedProductsActivity extends AppCompatActivity {
 //SHOP_PRODUCT/SHOP_PRODUCT/SHOP_PRODUCT/SHOP_PRODUCT/SHOP_PRODUCT/SHOP_PRODUCT/SHOP_PRODUCT/SHOP_PRODUCT/SHOP_PRODUCT//
 //SHOP_PRODUCT/SHOP_PRODUCT/SHOP_PRODUCT/SHOP_PRODUCT/SHOP_PRODUCT/SHOP_PRODUCT/SHOP_PRODUCT/SHOP_PRODUCT/SHOP_PRODUCT//
 
+        // Get the Offers(SHOP_PRODUCT) Table Data and Store it in Shop_ProductList list
+
         StringRequest stringRequest1 = new StringRequest(Request.Method.GET, AppConfig.URL_SHOP_PRODUCT, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
-
                     JSONArray jsonArray = new JSONArray(response);
                     Intent intent = getIntent();
-
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                        // If Condition to Only Put the Data with the same  Product Id that we Get From Home Activity
+
                         if (jsonObject.getInt("product_id") == intent.getIntExtra("id", 0)) {
 
                             offers pz = new offers();
@@ -78,28 +87,13 @@ public class DetailedProductsActivity extends AppCompatActivity {
                             pz.setProductid(jsonObject.getInt("product_id"));
                             pz.setPrice(jsonObject.getInt("price"));
                             pz.setSpecialoffers(jsonObject.getString("special_offers"));
-                            Shop_ProductList.add(pz);
-
                             cn.setPrice(jsonObject.getInt("price"));
                             cn.setSpecialoffers(jsonObject.getString("special_offers"));
-
-                            Log.d(TAG, "onResponseShop_ProductListzzzzzzzzzzzzzzzzzzzzzz:" + cn.toString());
-
-
                             Shop_ProductList.add(pz);
-                            //Log.d(TAG, "onResponseShop_ProductListzzzzzzzzzzzzzzzzzzzzzz:" + Shop_ProductList.toString());
 
-                            Log.d(TAG, "onResponseShop_Product:" + jsonObject);
-                            // JSONObject j1 =jsonObject.getInt("product_id");
                         }
-//                        Log.d(TAG, "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm:" + jsonObject);
-
                     }
-//                    ShopListAdapter adapter = new ShopListAdapter(DetailedProductsActivity.this, R.layout.activity_shop_list_adapter, Shop_ProductList);
-//                    mListView.setAdapter(adapter);
-
                 } catch (JSONException e) {
-
                     e.printStackTrace();
                 }
             }
@@ -113,12 +107,12 @@ public class DetailedProductsActivity extends AppCompatActivity {
         };
         Volley.newRequestQueue(this).add(stringRequest1);
 
-        // Log.d(TAG, "hhhhhhhhhhhhhhhh   " + findoffers((intent.getIntExtra("id",0)),Shop_ProductList));
+//SHOP//SHOP//SHOP/SHOP//SHOP//SHOP//SHOP//SHOP//SHOP/SHOP//SHOP//SHOP/SHOP//SHOP//SHOP//SHOP//SHOP//SHOP/ SHOP//SHOP//
+//SHOP//SHOP//SHOP/SHOP//SHOP//SHOP//SHOP//SHOP//SHOP/SHOP//SHOP//SHOP/SHOP//SHOP//SHOP//SHOP//SHOP//SHOP/ SHOP//SHOP//
+//SHOP//SHOP//SHOP/SHOP//SHOP//SHOP//SHOP//SHOP//SHOP/SHOP//SHOP//SHOP/SHOP//SHOP//SHOP//SHOP//SHOP//SHOP/ SHOP//SHOP//
 
-
-//SHOP//SHOP//SHOP/SHOP//SHOP//SHOP//SHOP//SHOP//SHOP/SHOP//SHOP//SHOP/SHOP//SHOP//SHOP//SHOP//SHOP//SHOP/ SHOP//SHOP//
-//SHOP//SHOP//SHOP/SHOP//SHOP//SHOP//SHOP//SHOP//SHOP/SHOP//SHOP//SHOP/SHOP//SHOP//SHOP//SHOP//SHOP//SHOP/ SHOP//SHOP//
-//SHOP//SHOP//SHOP/SHOP//SHOP//SHOP//SHOP//SHOP//SHOP/SHOP//SHOP//SHOP/SHOP//SHOP//SHOP//SHOP//SHOP//SHOP/ SHOP//SHOP//
+        // Get the Shop Table Data and Store it in ShopList list
+        // then Store it in CollectorList List to Show it in the ListView
 
         StringRequest stringRequest10 = new StringRequest(Request.Method.GET, AppConfig.URL_SHOP, new Response.Listener<String>() {
             @Override
@@ -128,10 +122,8 @@ public class DetailedProductsActivity extends AppCompatActivity {
                     Thread.sleep(100);
                     JSONArray jsonArray = new JSONArray(response);
 
-
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        //if (jsonObject.getInt("id") == intent.getIntExtra("id", 0)) {
                         Shop pn = new Shop();
                         pn.setId(jsonObject.getInt("id"));
                         pn.setName(jsonObject.getString("name"));
@@ -139,17 +131,13 @@ public class DetailedProductsActivity extends AppCompatActivity {
                         pn.setLongitude(jsonObject.getDouble("longitude"));
                         if (isValidProduct(pn)) {
                             ShopList.add(pn);
-                            Log.d(TAG, "Shop added: " + jsonObject);
                         } else {
-                            Log.d(TAG, "Cant add: " + pn.getId());
-
                         }
                     }
-
-                    Log.d(TAG, "Count: " + ShopList.size());
-                    filterCollectors();
-                    CollectorListAdapter adapter = new CollectorListAdapter(DetailedProductsActivity.this, R.layout.activity_shop_list_adapter, CollectorList);
+//                    filterCollectors();
+                    adapter = new CollectorListAdapter(DetailedProductsActivity.this, R.layout.activity_collector_list_adapter, CollectorList);
                     mListView.setAdapter(adapter);
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -168,6 +156,47 @@ public class DetailedProductsActivity extends AppCompatActivity {
         Volley.newRequestQueue(this).add(stringRequest10);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //Handle item selection
+        switch (item.getItemId()) {
+            case R.id.sort1:
+                //perform any action;
+                Collections.sort(CollectorList, Collector.PriceSortLowToHigh);
+                adapter.notifyDataSetChanged();
+                return true;
+            case R.id.sort11:
+                //perform any action;
+                Collections.sort(CollectorList, Collector.PriceSortHighToLow);
+                adapter.notifyDataSetChanged();
+                return true;
+
+            case R.id.sort2:
+                //perform any action;
+                Collections.sort(CollectorList, Collector.DistanceSortLowToHigh);
+                adapter.notifyDataSetChanged();
+                return true;
+
+            case R.id.sort22:
+                //perform any action;
+                Collections.sort(CollectorList, Collector.DistanceSortHighToLow);
+                adapter.notifyDataSetChanged();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+    // isValidProduct to Only Put the Data with the same Shop Id that we Get From ShopList list
     boolean isValidProduct(Shop shop) {
         boolean result = false;
         for (offers offer : Shop_ProductList) {
@@ -178,19 +207,25 @@ public class DetailedProductsActivity extends AppCompatActivity {
                 cn.setLongitude(shop.getLongitude());
                 cn.setPrice(offer.getPrice());
                 cn.setSpecialoffers(offer.getSpecialoffers());
-                Log.d(TAG, "Collrctor " + cn.toString());
-                CollectorList.add(cn);
-                Log.d(TAG, "onResponseCollectorListCollectorListCollectorListCollectorList:" + CollectorList.toString());
 
+                SharedPreferences Preferences = PreferenceManager.getDefaultSharedPreferences(DetailedProductsActivity.this);
+                int id = Preferences.getInt("user_id", 1);
+
+                cn.setUserid(id);
+                cn.setShopid(offer.getShopid());
+                cn.setProductid(offer.getProductid());
+
+                CollectorList.add(cn);
+                Log.d(TAG, "CollectorList  :" + CollectorList.toString());
                 result = true;
             }
         }
         return result;
     }
 
+
     void filterCollectors() {
         ArrayList<Collector> cs = new ArrayList<Collector>();
-
         for (Collector c : CollectorList) {
             boolean exist = false;
             for (Collector old : cs) {

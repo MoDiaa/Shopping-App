@@ -4,7 +4,11 @@ package activity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import androidx.preference.PreferenceManager;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -63,6 +67,7 @@ public class LoginActivity extends Activity {
         if (session.isLoggedIn()) {
             // User is already logged in. Take him to main activity
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+
             startActivity(intent);
             finish();
         }
@@ -139,6 +144,14 @@ public class LoginActivity extends Activity {
                         String PhoneNum = user.getString("PhoneNum");
                         String created_at = user
                                 .getString("created_at");
+                        //String id =user.getString("id");
+                        Log.e(TAG, "111111111111111111111111" + uid);
+
+                        SharedPreferences Preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+                        SharedPreferences.Editor editor = Preferences.edit();
+                        editor.putInt("user_id", Integer.parseInt(uid));
+                        editor.apply();
+
 
                         // Inserting row in users table
                         db.addUser(name, email, uid, created_at, Address, PhoneNum);

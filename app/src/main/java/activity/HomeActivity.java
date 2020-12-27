@@ -29,18 +29,6 @@ public class HomeActivity extends Activity {
 
     private static final String TAG = "HomeActivity";
     public ArrayList<Product> ProductList = new ArrayList<>();
-    public ArrayList<Shop> ShopList = new ArrayList<>();
-    public ArrayList<offers> Shop_ProductList = new ArrayList<>();
-
-//    public ArrayList<offers> findoffers(int x, ArrayList<offers> mn){
-//        ArrayList<offers> output=new ArrayList<>();
-//        for(int i =0 ;i<mn.size();i++){
-//            if(mn.get(i).getProductid()==x){
-//                output.add(mn.get(i));
-//            }
-//        }
-//              return output;
-//    }
 
 
     @Override
@@ -51,35 +39,34 @@ public class HomeActivity extends Activity {
         final ListView mListView = (ListView) findViewById(R.id.listView);
         mListView.setClickable(true);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-                System.out.println(ProductList.get(position).getId());
-                System.out.println(ProductList.get(position).getName());
-                System.out.println(ProductList.get(position).getDescription());
-                System.out.println(ProductList.get(position).getImage_url());
+
+
+                // Sending Data throw intent
+
                 Intent intent = new Intent(HomeActivity.this, DetailedProductsActivity.class);
                 intent.putExtra("id", ProductList.get(position).getId());
                 intent.putExtra("name", ProductList.get(position).getName());
                 intent.putExtra("description", ProductList.get(position).getDescription());
                 intent.putExtra("image_url", ProductList.get(position).getImage_url());
 
-
                 startActivity(intent);
             }
         });
 
+
 //PRODUCT//PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT//
 //PRODUCT//PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT//
 //PRODUCT//PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT/PRODUCT//
+
+        // Get the PRODUCT Table Data and Store it in ProductList list
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, AppConfig.URL_PRODUCT, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
-
                     JSONArray jsonArray = new JSONArray(response);
-
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         Product p = new Product();
@@ -88,18 +75,12 @@ public class HomeActivity extends Activity {
                         p.setImage_url(jsonObject.getString("image_url"));
                         p.setName(jsonObject.getString("name"));
                         ProductList.add(p);
-
-                        // Log.d(TAG, "onResponse ProductList:" + jsonObject);
-
                     }
-                    //   Log.d(TAG, "onResponseProductListProductListProductList:" + ProductList);
                     ProductListAdapter adapter = new ProductListAdapter(HomeActivity.this, R.layout.adapter_view_layout, ProductList);
                     mListView.setAdapter(adapter);
                 } catch (JSONException e) {
-
                     e.printStackTrace();
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -107,11 +88,8 @@ public class HomeActivity extends Activity {
                 Toast.makeText(HomeActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
                 error.printStackTrace();
             }
-        }) {
-        };
-
+        });
         Volley.newRequestQueue(this).add(stringRequest);
-
         startActivity(new Intent(this, LocationActivity.class));
     }
 }

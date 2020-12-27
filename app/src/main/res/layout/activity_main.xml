@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="${relativePackage}.${activityClass}" >
+    android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+    tools:context="${relativePackage}.${activityClass}">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -12,7 +13,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:gravity="center"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
@@ -43,7 +44,7 @@
             android:text="My current location"
             android:textAllCaps="true"
             android:textColor="@color/white"
-            android:textSize="15dp"/>
+            android:textSize="15dp" />
 
 
         <Button
@@ -55,7 +56,18 @@
             android:text="Products"
             android:textAllCaps="true"
             android:textColor="@color/white"
-            android:textSize="15dp"/>
+            android:textSize="15dp" />
+
+        <Button
+            android:id="@+id/Savebut"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dip"
+            android:background="@color/input_register"
+            android:text="Saved Shops"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="15dp" />
 
         <Button
             android:id="@+id/btnLogout"

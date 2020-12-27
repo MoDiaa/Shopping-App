@@ -1,2 +1,4 @@
+include ':likebutton'
+include ':Likebutton'
 include ':app'
 rootProject.name = "Shopping Application"

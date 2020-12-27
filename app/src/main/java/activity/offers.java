@@ -8,7 +8,6 @@ public class offers implements java.io.Serializable {
 
     }
 
-
     public String toString() {
         return ("id:" + getId() +
                 " shopid " + getShopid() +
@@ -16,7 +15,6 @@ public class offers implements java.io.Serializable {
                 " price " + getPrice()) +
                 " specialoffers " + getSpecialoffers();
     }
-
 
     public String getSpecialoffers() {
         return specialoffers;

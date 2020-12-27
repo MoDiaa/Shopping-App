@@ -36,14 +36,13 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        //get the persons information
+
+        //Get the Product information
         int id = getItem(position).getId();
         String name = getItem(position).getName();
         String description = getItem(position).getDescription();
         String image_url = getItem(position).getImage_url();
 
-        //Create the person object with the information
-        Product Product = new Product();
         //create the view result for showing the animation
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(mResource, parent, false);
